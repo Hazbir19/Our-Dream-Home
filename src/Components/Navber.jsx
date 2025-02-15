@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoHomeOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import "../App.css";
 import { MdOutlineRealEstateAgent } from "react-icons/md";
+import { ContextMain } from "../Context/ContextApi";
 
 const Navber = () => {
   const location = useLocation();
+  const { user } = useContext(ContextMain);
   const NavItem = (
     <>
       <div className="lg:flex md:flex items-center gap-8 justify-between hidden">
@@ -91,34 +93,47 @@ const Navber = () => {
                   </ul>
                 </div>
                 {/* Profile user Photo */}
-                <div class="dropdown dropdown-end">
-                  <div
-                    tabindex="0"
-                    role="button"
-                    class="btn btn-ghost btn-circle avatar"
-                  >
-                    <div class="w-10 rounded-full">
-                      <img
-                        alt="Tailwind CSS Navbar component"
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                      />
+                {user ? (
+                  <div class="dropdown dropdown-end">
+                    <div
+                      tabindex="0"
+                      role="button"
+                      class="btn btn-ghost btn-circle avatar"
+                    >
+                      <div class="w-10 rounded-full">
+                        <img
+                          alt="Tailwind CSS Navbar component"
+                          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                        />
+                      </div>
                     </div>
+                    <ul
+                      tabindex="0"
+                      class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                    >
+                      <li>
+                        <a class="justify-between">Profile</a>
+                      </li>
+                      <li>
+                        <a>Settings</a>
+                      </li>
+                      <li>
+                        <a>Logout</a>
+                      </li>
+                    </ul>
                   </div>
-                  <ul
-                    tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                  >
-                    <li>
-                      <a class="justify-between">Profile</a>
-                    </li>
-                    <li>
-                      <a>Settings</a>
-                    </li>
-                    <li>
-                      <a>Logout</a>
-                    </li>
-                  </ul>
-                </div>
+                ) : (
+                  <>
+                    <div className="lg:flex md:flex items-center gap-5 justify-center">
+                      <Link to={"/login"}>
+                        <button className="btn bg-amber-400">Login</button>
+                      </Link>
+                      <Link to={"/register"}>
+                        <button className="btn btn-neutral">Register</button>
+                      </Link>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -184,46 +199,38 @@ const Navber = () => {
                     </div>
                   </ul>
                 </div>
-                {/* Profile user Photo */}
                 <div class="dropdown dropdown-end">
-                  <div
-                    tabindex="0"
-                    role="button"
-                    class="btn btn-ghost btn-circle avatar"
-                  >
-                    <div class="w-10 rounded-full">
-                      <img
-                        alt="Tailwind CSS Navbar component"
-                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                      />
+                  {/* Profile user Photo */}
+                  {user && (
+                    <div class="dropdown dropdown-end">
+                      <div
+                        tabindex="0"
+                        role="button"
+                        class="btn btn-ghost btn-circle avatar"
+                      >
+                        <div class="w-10 rounded-full">
+                          <img
+                            alt="Tailwind CSS Navbar component"
+                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                          />
+                        </div>
+                      </div>
+                      <ul
+                        tabindex="0"
+                        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                      >
+                        <li>
+                          <a class="justify-between">Profile</a>
+                        </li>
+                        <li>
+                          <a>Settings</a>
+                        </li>
+                        <li>
+                          <a>Logout</a>
+                        </li>
+                      </ul>
                     </div>
-                  </div>
-                  <ul
-                    tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-200 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-                  >
-                    <Link
-                      to={"/"}
-                      className="lg:text-lg text-xs flex md:text-md  items-center gap-2  font-bold"
-                    >
-                      <IoHomeOutline className="text-md" />
-                      Profile
-                    </Link>
-                    <Link
-                      to={"/allproperty"}
-                      className="lg:text-lg text-xs md:text-md flex items-center gap-2 font-bold"
-                    >
-                      <MdOutlineRealEstateAgent />
-                      Settings
-                    </Link>
-                    <Link
-                      to={"/dashboard"}
-                      className="lg:text-lg text-xs md:text-md  flex items-center gap-2 font-bold"
-                    >
-                      <RxDashboard className="text-md" />
-                      Logout
-                    </Link>
-                  </ul>
+                  )}
                 </div>
               </div>
             </div>

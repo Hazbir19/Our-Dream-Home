@@ -3,6 +3,8 @@ import MainLayouts from "../Layouts/MainLayouts";
 import HomePage from "../Pages/HomePage";
 import Dashboard from "../Pages/Dashboard";
 import Allproperty from "../Pages/Allproperty";
+import LoginPage from "../Pages/LoginPage";
+import Register from "../Pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
       {
         path: "/allproperty",
         element: <Allproperty></Allproperty>,
+      },
+      {
+        path: "/login",
+        element: <LoginPage></LoginPage>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
       },
     ],
   },
