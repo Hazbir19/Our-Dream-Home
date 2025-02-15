@@ -5,11 +5,11 @@ import Navber from "../Components/Navber";
 const MainLayouts = () => {
   return (
     <>
-      <div className="max-w-screen mx-auto lato-regular">
+      <div className="max-w-screen mx-auto lato-regular overflow-x-hidden">
         <div>
           <Navber></Navber>
         </div>
-        <div>
+        <div className="">
           <Outlet></Outlet>
         </div>
         <div>
