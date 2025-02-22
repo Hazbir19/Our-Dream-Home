@@ -1,6 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import auth from "../Firebase/Firebase.config";
-import { onAuthStateChanged } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import axios from "axios";
 
 export const ContextMain = createContext();
@@ -8,14 +15,7 @@ const ContextApi = ({ children }) => {
   //User State
   const [user, SetUser] = useState(null);
   const [loadding, setloadding] = useState(true);
-  // PassWord Validate
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-    if (!regex.test(password)) {
-      return "Password must be at least 6 characters long, include one uppercase letter, and one lowercase letter.";
-    }
-    return null;
-  };
+  const [Admin, setAdmin] = useState(false);
   //login with Google start
   const HandleGoogleSignIn = () => {
     setloadding(true);
@@ -88,7 +88,6 @@ const ContextApi = ({ children }) => {
     handleEmailSignIn,
     EmailsignOut,
     HandleLogIn,
-    validatePassword,
     HandleGoogleSignIn,
     loadding,
   };

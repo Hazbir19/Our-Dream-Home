@@ -8,7 +8,8 @@ import { ContextMain } from "../Context/ContextApi";
 
 const Navber = () => {
   const location = useLocation();
-  const { user } = useContext(ContextMain);
+  const { user, EmailsignOut, photo } = useContext(ContextMain);
+  const handleLogOut = () => {};
   const NavItem = (
     <>
       <div className="lg:flex md:flex items-center gap-8 justify-between hidden">
@@ -19,19 +20,23 @@ const Navber = () => {
           <IoHomeOutline className="text-md" />
           Home
         </Link>
-        <Link
-          to={"/allproperty"}
-          className="lg:text-lg text-xs md:text-md flex items-center gap-2 lg:text-white md:text-white font-bold"
-        >
-          <MdOutlineRealEstateAgent />
-          All Properties
-        </Link>
-        <Link
-          to={"/dashboard"}
-          className="lg:text-lg text-xs md:text-md  flex items-center gap-2 lg:text-white md:text-white font-bold"
-        >
-          <RxDashboard className="text-md" /> Dashboard
-        </Link>
+        {user && (
+          <>
+            <Link
+              to={"/allproperty"}
+              className="lg:text-lg text-xs md:text-md flex items-center gap-2 lg:text-white md:text-white font-bold"
+            >
+              <MdOutlineRealEstateAgent />
+              All Properties
+            </Link>
+            <Link
+              to={"/dashboard"}
+              className="lg:text-lg text-xs md:text-md  flex items-center gap-2 lg:text-white md:text-white font-bold"
+            >
+              <RxDashboard className="text-md" /> Dashboard
+            </Link>
+          </>
+        )}
       </div>
     </>
   );
@@ -76,19 +81,23 @@ const Navber = () => {
                         <IoHomeOutline className="text-md" />
                         Home
                       </Link>
-                      <Link
-                        to={"/allproperty"}
-                        className="lg:text-lg text-xs md:text-md flex items-center gap-2 py-1 lg:text-white font-bold"
-                      >
-                        <MdOutlineRealEstateAgent />
-                        All Properties
-                      </Link>
-                      <Link
-                        to={"/dashboard"}
-                        className="lg:text-lg text-xs md:text-md  flex items-center gap-2 py-1 lg:text-white font-bold"
-                      >
-                        <RxDashboard className="text-md" /> Dashboard
-                      </Link>
+                      {user && (
+                        <>
+                          <Link
+                            to={"/allproperty"}
+                            className="lg:text-lg text-xs md:text-md flex items-center gap-2 lg:text-white md:text-white font-bold"
+                          >
+                            <MdOutlineRealEstateAgent />
+                            All Properties
+                          </Link>
+                          <Link
+                            to={"/dashboard"}
+                            className="lg:text-lg text-xs md:text-md  flex items-center gap-2 lg:text-white md:text-white font-bold"
+                          >
+                            <RxDashboard className="text-md" /> Dashboard
+                          </Link>
+                        </>
+                      )}
                     </div>
                   </ul>
                 </div>
@@ -103,7 +112,11 @@ const Navber = () => {
                       <div class="w-10 rounded-full">
                         <img
                           alt="Tailwind CSS Navbar component"
-                          src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                          src={`${
+                            photo
+                              ? photo
+                              : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                          }`}
                         />
                       </div>
                     </div>
@@ -112,24 +125,31 @@ const Navber = () => {
                       class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     >
                       <li>
-                        <a class="justify-between">Profile</a>
+                        <a class="justify-between">{user.name}</a>
                       </li>
                       <li>
                         <a>Settings</a>
                       </li>
-                      <li>
-                        <a>Logout</a>
-                      </li>
+                      <Link to={"/"}>
+                        <button
+                          className="btn btn-neutral"
+                          onClick={EmailsignOut}
+                        >
+                          Logout
+                        </button>
+                      </Link>
                     </ul>
                   </div>
                 ) : (
                   <>
                     <div className="lg:flex md:flex items-center gap-5 justify-center">
                       <Link to={"/login"}>
-                        <button className="btn bg-amber-400">Login</button>
+                        <button className="btn bg-amber-400 ml-5">Login</button>
                       </Link>
                       <Link to={"/register"}>
-                        <button className="btn btn-neutral">Register</button>
+                        <button className="btn btn-neutral ml-5">
+                          Register
+                        </button>
                       </Link>
                     </div>
                   </>
@@ -183,19 +203,23 @@ const Navber = () => {
                         <IoHomeOutline className="text-md" />
                         Home
                       </Link>
-                      <Link
-                        to={"/allproperty"}
-                        className="lg:text-lg text-xs md:text-md flex items-center gap-2 py-1 lg:text-black font-bold"
-                      >
-                        <MdOutlineRealEstateAgent />
-                        All Properties
-                      </Link>
-                      <Link
-                        to={"/dashboard"}
-                        className="lg:text-lg text-xs md:text-md  flex items-center gap-2 py-1 lg:text-black font-bold"
-                      >
-                        <RxDashboard className="text-md" /> Dashboard
-                      </Link>
+                      {user && (
+                        <>
+                          <Link
+                            to={"/allproperty"}
+                            className="lg:text-lg text-xs md:text-md flex items-center gap-2 lg:text-white md:text-white font-bold"
+                          >
+                            <MdOutlineRealEstateAgent />
+                            All Properties
+                          </Link>
+                          <Link
+                            to={"/dashboard"}
+                            className="lg:text-lg text-xs md:text-md  flex items-center gap-2 lg:text-white md:text-white font-bold"
+                          >
+                            <RxDashboard className="text-md" /> Dashboard
+                          </Link>
+                        </>
+                      )}
                     </div>
                   </ul>
                 </div>
@@ -211,7 +235,11 @@ const Navber = () => {
                         <div class="w-10 rounded-full">
                           <img
                             alt="Tailwind CSS Navbar component"
-                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                            src={`${
+                              photo
+                                ? photo
+                                : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                            }`}
                           />
                         </div>
                       </div>
@@ -220,14 +248,19 @@ const Navber = () => {
                         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                       >
                         <li>
-                          <a class="justify-between">Profile</a>
+                          <a class="justify-between text-lg">{user.name}</a>
                         </li>
                         <li>
                           <a>Settings</a>
                         </li>
-                        <li>
-                          <a>Logout</a>
-                        </li>
+                        <Link to={"/"}>
+                          <button
+                            className="btn btn-neutral"
+                            onClick={EmailsignOut}
+                          >
+                            Logout
+                          </button>
+                        </Link>
                       </ul>
                     </div>
                   )}
