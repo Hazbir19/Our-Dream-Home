@@ -10,6 +10,16 @@ import Wishlist from "../User/Wishlist";
 import PropertyBrougt from "../User/PropertyBrougt";
 import Myreview from "../User/Myreview";
 import PrivateRouter from "../Private/PrivateRouter";
+import AdminProfile from "../Admin/AdminProfile";
+import ManageProperties from "../Admin/ManageProperties";
+import ManageUser from "../Admin/ManageUser";
+import ManageReview from "../Admin/ManageReview";
+import RoleBasedProfile from "../Components/RoleBasedProfile";
+import AgentProfile from "../AgentPage/AgentProfile";
+import AddProperty from "../AgentPage/AddProperty";
+import PropertyDetails from "../Pages/PropertiseDetails";
+import MyAddedProperties from "../AgentPage/MyAddPropertise";
+import MakeOffer from "../Components/MakeOffer";
 
 const router = createBrowserRouter([
   {
@@ -47,8 +57,50 @@ const router = createBrowserRouter([
       </PrivateRouter>
     ),
     children: [
+      //Admin router
       {
         index: true,
+        element: (
+          <PrivateRouter>
+            <RoleBasedProfile></RoleBasedProfile>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/admin-profile",
+        element: (
+          <PrivateRouter>
+            <AdminProfile></AdminProfile>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/manageProperty",
+        element: (
+          <PrivateRouter>
+            <ManageProperties />,
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/manageUser",
+        element: (
+          <PrivateRouter>
+            <ManageUser></ManageUser>,
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/manageReview",
+        element: (
+          <PrivateRouter>
+            <ManageReview />
+          </PrivateRouter>
+        ),
+      },
+      //user Router
+      {
+        path: "/dashboard/my-profile",
         element: (
           <PrivateRouter>
             <Myprofile></Myprofile>,
@@ -76,6 +128,48 @@ const router = createBrowserRouter([
         element: (
           <PrivateRouter>
             <Myreview></Myreview>
+          </PrivateRouter>
+        ),
+      },
+      // Agent Router
+      {
+        path: "/dashboard/agent-profile",
+        element: (
+          <PrivateRouter>
+            <AgentProfile></AgentProfile>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/addProperty",
+        element: (
+          <PrivateRouter>
+            <AddProperty></AddProperty>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/myAddPropertise",
+        element: (
+          <PrivateRouter>
+            <MyAddedProperties></MyAddedProperties>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/propertyDetails/:id",
+        element: (
+          <PrivateRouter>
+            <PropertyDetails></PropertyDetails>
+          </PrivateRouter>
+        ),
+      },
+
+      {
+        path: "/dashboard/makeoffer/:propertyId",
+        element: (
+          <PrivateRouter>
+            <MakeOffer></MakeOffer>
           </PrivateRouter>
         ),
       },

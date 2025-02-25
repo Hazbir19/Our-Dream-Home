@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
+import UsePublicApi from "../Custom/usePublicApi";
 
 const Register = () => {
   const { handleEmailSignIn, validatePassword } = useContext(ContextMain);
@@ -12,6 +13,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const PublicApis = UsePublicApi();
   const onSubmit = (data) => {
     // console.log("User Info:", data);
     const name = data.name;
@@ -26,20 +28,16 @@ const Register = () => {
           photoURL: photo,
         }).then(() => {
           //User create Operation: method post hit in this localpath
-          // fetch("https://sever-silde.vercel.app/users", {
-          //   method: "POST", //user create method
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify(user),
-          // })
-          //   .then((res) => res.json())
-          //   .then((data) => {
-          //     console.log(data);
-          //     if (data.insertedId) {
-          //       //toast.success("User add in DataBase");
-          //     }
-          //   });
+          const userInfo = {
+            name: name,
+            email: data.email,
+          };
+          PublicApis.post("/users", userInfo).then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+              toast.success("User Created Successfully");
+            }
+          });
           toast.success("SignIn SuccessFully");
           navigate("/");
         });

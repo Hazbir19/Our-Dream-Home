@@ -9,13 +9,15 @@ import {
   signOut,
 } from "firebase/auth";
 import axios from "axios";
+import UseSecureApi from "../Custom/UseSecureApi";
 
 export const ContextMain = createContext();
 const ContextApi = ({ children }) => {
   //User State
   const [user, SetUser] = useState(null);
+  const SecureApi = UseSecureApi();
   const [loadding, setloadding] = useState(true);
-  const [Admin, setAdmin] = useState(false);
+
   //login with Google start
   const HandleGoogleSignIn = () => {
     setloadding(true);
@@ -37,22 +39,36 @@ const ContextApi = ({ children }) => {
     // setloadding(true);
     return signOut(auth);
   };
+
   //User Moninitoring in App
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        console.log("Current user", currentUser);
-        SetUser({
-          name: currentUser.displayName,
-          photo: currentUser.photoURL,
-          email: currentUser.email,
-        });
+        try {
+          // Fetch the user role from the API
+          const response = await SecureApi.get(`/users/${currentUser.email}`);
+          const userData = response.data;
+          console.log(userData);
+
+          // Set the user with the role from the API
+          SetUser({
+            name: currentUser.displayName,
+            photo: currentUser.photoURL,
+            email: currentUser.email,
+            role: userData.role, // Assign role from API
+          });
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+        }
+
         console.log("Current state", currentUser?.email);
 
         if (currentUser?.email) {
-          const user = { email: currentUser.email };
+          const user = { email: currentUser.email, role: currentUser.role };
+
           axios
-            .post("https://sever-silde.vercel.app/jwt", user, {
+            .post("http://localhost:5000/jwt", user, {
               withCredentials: true,
             })
             .then((res) => {
@@ -64,7 +80,7 @@ const ContextApi = ({ children }) => {
       } else {
         axios
           .post(
-            "https://sever-silde.vercel.app/logout",
+            "http://localhost:5000/logout",
             {},
             {
               withCredentials: true,
@@ -82,6 +98,7 @@ const ContextApi = ({ children }) => {
       unsubscribe();
     };
   }, [auth]);
+
   //Data Pipeline
   const items = {
     user,
