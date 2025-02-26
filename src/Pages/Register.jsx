@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import UsePublicApi from "../Custom/usePublicApi";
 
 const Register = () => {
-  const { handleEmailSignIn, validatePassword } = useContext(ContextMain);
+  const { handleEmailSignIn, wait, setWait } = useContext(ContextMain);
   const {
     register,
     handleSubmit,
@@ -36,6 +36,7 @@ const Register = () => {
             console.log(res.data);
             if (res.data.insertedId) {
               toast.success("User Created Successfully");
+              setWait(true);
             }
           });
           toast.success("SignIn SuccessFully");

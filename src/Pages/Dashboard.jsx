@@ -76,14 +76,14 @@ const Dashboard = () => {
                 Add Manage Property
               </Link>
               <Link
-                to="/dashboard/myReview"
+                to="/dashboard/mySoldProperty"
                 className="flex justify-center gap-2 items-center p-4 lg:text-lg md:text-base text-sm hover:bg-gray-700"
               >
                 <MdRateReview />
                 My Sold Property
               </Link>
               <Link
-                to="/dashboard/myReview"
+                to="/dashboard/reqested-property"
                 className="flex justify-center gap-2 items-center p-4 lg:text-lg md:text-base text-sm hover:bg-gray-700"
               >
                 <MdRateReview />

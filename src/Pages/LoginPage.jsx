@@ -11,9 +11,7 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    HandleLogIn(data.email, data.password).then((result) => {
-      console.log(result);
-    });
+    HandleLogIn(data.email, data.password);
   };
   return (
     <>

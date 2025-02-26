@@ -17,6 +17,7 @@ const ContextApi = ({ children }) => {
   const [user, SetUser] = useState(null);
   const SecureApi = UseSecureApi();
   const [loadding, setloadding] = useState(true);
+  const [wait, setWait] = useState(false);
 
   //login with Google start
   const HandleGoogleSignIn = () => {
@@ -45,9 +46,10 @@ const ContextApi = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        console.log(currentUser);
         try {
           // Fetch the user role from the API
-          const response = await SecureApi.get(`/users/${currentUser.email}`);
+          const response = await SecureApi.get(`/user/${currentUser?.email}`);
           const userData = response.data;
           console.log(userData);
 
@@ -68,7 +70,7 @@ const ContextApi = ({ children }) => {
           const user = { email: currentUser.email, role: currentUser.role };
 
           axios
-            .post("http://localhost:5000/jwt", user, {
+            .post("https://assi-12-server.vercel.app/jwt", user, {
               withCredentials: true,
             })
             .then((res) => {
@@ -80,7 +82,7 @@ const ContextApi = ({ children }) => {
       } else {
         axios
           .post(
-            "http://localhost:5000/logout",
+            "https://assi-12-server.vercel.app/logout",
             {},
             {
               withCredentials: true,
@@ -107,6 +109,8 @@ const ContextApi = ({ children }) => {
     HandleLogIn,
     HandleGoogleSignIn,
     loadding,
+    wait,
+    setWait,
   };
   return <ContextMain.Provider value={items}>{children}</ContextMain.Provider>;
 };

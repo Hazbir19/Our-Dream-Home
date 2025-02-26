@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useContext } from "react";
 import UseSecureApi from "../Custom/UseSecureApi";
 import { GrUserAdmin } from "react-icons/gr";
-import { MdRealEstateAgent } from "react-icons/md";
 import { RiShieldCrossLine, RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import { deleteUser } from "firebase/auth";
+import auth from "../Firebase/Firebase.config";
+import { ContextMain } from "../Context/ContextApi";
+import { useContext } from "react";
 
 const ManageUser = () => {
   const SecureApi = UseSecureApi();
@@ -15,30 +17,37 @@ const ManageUser = () => {
       return user.data;
     },
   });
-  const HandleDeleteUser = (user) => {
-    // Delete user logic here
+  const HandleDeleteUser = async (user) => {
     Swal.fire({
       title: "Are you sure?",
-      text: `You Want Delete this User ${user.name}!`,
+      text: `You want to delete user ${user.name}?`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        SecureApi.delete(`/users/${user._id}`);
-        if (result.data.deletedCount > 0) {
-          refetch();
-          Swal.fire({
-            title: "Deleted!",
-            text: `Your ${user.name} has been deleted.`,
-            icon: "success",
-          });
+        try {
+          const firebaseUser = auth?.currentUser;
+          if (firebaseUser?.email === user?.email) {
+            await deleteUser(firebaseUser);
+          }
+
+          // Delete from MongoDB
+          const response = await SecureApi.delete(`/users/${user._id}`);
+          if (response.data.deletedCount > 0) {
+            refetch();
+            Swal.fire("Deleted!", `${user.name} has been removed.`, "success");
+          }
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          Swal.fire("Error!", "Failed to delete the user.", "error");
         }
       }
     });
   };
+
   const handleMakeAdmin = (user) => {
     console.log("click");
     // Make admin logic here

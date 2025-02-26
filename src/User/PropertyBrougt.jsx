@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ContextMain } from "../Context/ContextApi";
 import UseSecureApi from "../Custom/UseSecureApi";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const PropertyBought = () => {
   const { user } = useContext(ContextMain);
@@ -20,6 +22,18 @@ const PropertyBought = () => {
         console.error("Error fetching bought properties:", error)
       );
   }, [user?.email]);
+  const HandleDelete = async (id) => {
+    try {
+      const response = await SecureApi.delete(`/property/rejected/${id}`);
+
+      if (response.status === 200) {
+        toast.success("Property deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      toast.error("Failed to delete property.");
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -44,17 +58,30 @@ const PropertyBought = () => {
               </p>
               <p
                 className={`mt-2 px-4 py-2 inline-block text-white rounded-md ${
-                  property.status === "pending"
-                    ? "bg-yellow-500"
-                    : "bg-green-600"
-                }`}
+                  property.status === "pending" && "bg-yellow-500"
+                }
+              ${property.status === "rejected" && "bg-pink-600"}
+              ${property.status === "accepted" && "bg-green-400"}
+
+                  `}
               >
                 {property.status}
               </p>
 
               {property.status === "accepted" && (
-                <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                  Pay
+                <Link to={`/dashboard/paymentPage/${property._id}`}>
+                  <button className="mt-4 ml-8 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    Pay
+                  </button>
+                </Link>
+              )}
+
+              {property.status === "rejected" && (
+                <button
+                  className="mt-4 ml-8 bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-red-700"
+                  onClick={() => HandleDelete(property._id)}
+                >
+                  Delete
                 </button>
               )}
             </div>

@@ -20,6 +20,9 @@ import AddProperty from "../AgentPage/AddProperty";
 import PropertyDetails from "../Pages/PropertiseDetails";
 import MyAddedProperties from "../AgentPage/MyAddPropertise";
 import MakeOffer from "../Components/MakeOffer";
+import RequestedProperty from "../AgentPage/RequestedProperty";
+import PaymentPage from "../Components/PaymentPage";
+import MySoldProperties from "../AgentPage/MySoldPropertise";
 
 const router = createBrowserRouter([
   {
@@ -170,6 +173,30 @@ const router = createBrowserRouter([
         element: (
           <PrivateRouter>
             <MakeOffer></MakeOffer>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/reqested-property",
+        element: (
+          <PrivateRouter>
+            <RequestedProperty></RequestedProperty>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/mySoldProperty",
+        element: (
+          <PrivateRouter>
+            <MySoldProperties></MySoldProperties>
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/dashboard/paymentPage/:id",
+        element: (
+          <PrivateRouter>
+            <PaymentPage></PaymentPage>
           </PrivateRouter>
         ),
       },
