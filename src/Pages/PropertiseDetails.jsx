@@ -14,8 +14,10 @@ const PropertyDetails = () => {
   const [newReview, setNewReview] = useState("");
 
   useEffect(() => {
-    SecureApi.get(`/properties/${id}`)
-      .then((res) => setProperty(res.data))
+    SecureApi.get(`/properties/propertyDetails/${id}`)
+      .then((res) => {
+        setProperty(res.data);
+      })
       .catch((error) =>
         console.error("Error fetching property details:", error)
       );
@@ -67,22 +69,25 @@ const PropertyDetails = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <img
-        src={property?.image}
-        alt={property?.title}
-        className="w-full rounded-lg"
-      />
-      <h1 className="text-3xl font-bold mt-4">{property?.title}</h1>
-      <p className="text-gray-700">{property?.description}</p>
-      <p className="text-xl font-semibold mt-2">${property?.price}</p>
-      <p className="text-gray-600">Agent: {property?.agentName}</p>
-      <button
-        onClick={handleWishlist}
-        className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-      >
-        Add to Wishlist
-      </button>
-
+      <>
+        <div>
+          <img
+            src={property?.image}
+            alt={property?.title}
+            className="w-1/2 rounded-lg"
+          />
+          <h1 className="text-3xl font-bold mt-4">{property?.title}</h1>
+          <p className="text-gray-700">{property?.description}</p>
+          <p className="text-xl font-semibold mt-2">${property?.price}</p>
+          <p className="text-gray-600">Agent: {property?.agentName}</p>
+          <button
+            onClick={handleWishlist}
+            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          >
+            Add to Wishlist
+          </button>
+        </div>
+      </>
       <div className="mt-6">
         <h2 className="text-2xl font-bold">Reviews</h2>
         {reviews.length > 0 ? (
@@ -101,7 +106,6 @@ const PropertyDetails = () => {
           Add a Review
         </button>
       </div>
-
       {/* Review Modal */}
       {showReviewModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">

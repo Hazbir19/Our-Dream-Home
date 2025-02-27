@@ -5,8 +5,6 @@ import { RiShieldCrossLine, RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { deleteUser } from "firebase/auth";
 import auth from "../Firebase/Firebase.config";
-import { ContextMain } from "../Context/ContextApi";
-import { useContext } from "react";
 
 const ManageUser = () => {
   const SecureApi = UseSecureApi();
@@ -79,6 +77,38 @@ const ManageUser = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+      }
+    });
+  };
+  const handleMarkFraud = async (user) => {
+    Swal.fire({
+      title: "Mark as Fraud?",
+      text: `This will remove all properties of ${user?.name} and block them from adding new ones.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, mark as fraud!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Update user role to 'fraud'
+          const response = await SecureApi.patch(`/users/fraud/${user?._id}`);
+          if (response.data.modifiedCount > 0) {
+            // Delete all properties added by this agent
+            await SecureApi.delete(`/properties/by-agent/${user?.email}`);
+
+            refetch();
+            Swal.fire(
+              "Marked!",
+              `${user?.name} is now a fraud agent.`,
+              "success"
+            );
+          }
+        } catch (error) {
+          console.error("Error marking fraud:", error);
+          Swal.fire("Error!", "Failed to mark as fraud.", "error");
+        }
       }
     });
   };
@@ -170,7 +200,10 @@ const ManageUser = () => {
 
                 {/* Mark as Fraud */}
                 <td className="p-3 text-center">
-                  <button className="btn btn-warning flex items-center gap-2">
+                  <button
+                    className="btn btn-warning flex items-center gap-2"
+                    onClick={() => handleMarkFraud()}
+                  >
                     <RiShieldCrossLine className="text-lg" />
                     Fraud
                   </button>

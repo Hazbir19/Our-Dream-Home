@@ -11,7 +11,7 @@ const MyAddedProperties = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    SecureApi.get(`/properties?agentEmail=${user?.email}`)
+    SecureApi.get(`/properties/${user?.email}`)
       .then((res) => {
         setProperties(res.data);
       })

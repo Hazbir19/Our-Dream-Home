@@ -9,6 +9,7 @@ import { ContextMain } from "../Context/ContextApi";
 
 const Dashboard = () => {
   const { user } = useContext(ContextMain);
+
   const isAdmin = user.role === "admin";
   const isAgent = user.role === "agent";
 

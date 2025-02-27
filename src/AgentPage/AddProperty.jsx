@@ -13,13 +13,24 @@ const AddProperty = () => {
   } = useForm();
   const { user } = useContext(ContextMain);
   const SecureApi = UseSecureApi();
-
-  const onSubmit = (data) => {
+  const Image_Hosting = import.meta.env.VITE_Image_Hosting_Key;
+  const Image_Hosting_Api = `https://api.imgbb.com/1/upload?&key=${Image_Hosting}`;
+  const onSubmit = async (data) => {
     console.log(data);
+    const ImageFile = {
+      image: data.image[0],
+    };
+    const res = await SecureApi.post(Image_Hosting_Api, ImageFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(res.data);
     const propertyData = {
       ...data,
       agentName: user?.name,
       agentEmail: user?.email,
+      image: res.data.data.display_url,
       status: "pending",
     };
     SecureApi.post("/properties", propertyData)
