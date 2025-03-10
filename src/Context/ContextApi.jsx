@@ -15,6 +15,7 @@ export const ContextMain = createContext();
 const ContextApi = ({ children }) => {
   //User State
   const [user, SetUser] = useState(null);
+  const photo = user?.photo;
   const SecureApi = UseSecureApi();
   const [loadding, setloadding] = useState(true);
   const [wait, setWait] = useState(false);
@@ -46,7 +47,7 @@ const ContextApi = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        console.log(currentUser);
+        // console.log(currentUser);
         try {
           // Fetch the user role from the API
           const response = await SecureApi.get(`/user/${currentUser?.email}`);
@@ -111,6 +112,7 @@ const ContextApi = ({ children }) => {
     loadding,
     wait,
     setWait,
+    photo,
   };
   return <ContextMain.Provider value={items}>{children}</ContextMain.Provider>;
 };

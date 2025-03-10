@@ -93,7 +93,8 @@ const ManageUser = () => {
       if (result.isConfirmed) {
         try {
           // Update user role to 'fraud'
-          const response = await SecureApi.patch(`/users/fraud/${user?._id}`);
+          console.log(user);
+          const response = await SecureApi.patch(`/users/fraud/${user?.email}`);
           if (response.data.modifiedCount > 0) {
             // Delete all properties added by this agent
             await SecureApi.delete(`/properties/by-agent/${user?.email}`);
@@ -145,8 +146,8 @@ const ManageUser = () => {
                     <div className="avatar">
                       <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden">
                         <img
-                          src={user.photo}
-                          alt={user.name}
+                          src={user?.photo}
+                          alt={user?.name}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -161,7 +162,7 @@ const ManageUser = () => {
                   {user.role == "admin" ? (
                     <>
                       <div>
-                        <h1 className="text-lg w-1/2 bg-pink-400 text-white shadow-md">
+                        <h1 className="text-lg w-1/2 bg-gradient-to-bl to-sky-300 from-pink-300 text-white shadow-md">
                           Admin
                         </h1>
                       </div>
@@ -189,7 +190,7 @@ const ManageUser = () => {
                     </>
                   ) : (
                     <button
-                      className="btn btn-primary flex items-center gap-2"
+                      className="btn btn-ghost flex items-center gap-2"
                       onClick={() => handleMakeAgent(user)}
                     >
                       <GrUserAdmin className="text-lg" />
@@ -200,13 +201,27 @@ const ManageUser = () => {
 
                 {/* Mark as Fraud */}
                 <td className="p-3 text-center">
-                  <button
-                    className="btn btn-warning flex items-center gap-2"
-                    onClick={() => handleMarkFraud()}
-                  >
-                    <RiShieldCrossLine className="text-lg" />
-                    Fraud
-                  </button>
+                  {user.role == "fraud" ? (
+                    <>
+                      <td>
+                        <p className="text-lg bg-red-600 text-white flex items-center gap-2 px-5 py-2 rounded-md font-bold">
+                          fraud
+                        </p>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td>
+                        <button
+                          className="btn btn-warning flex items-center gap-2"
+                          onClick={() => handleMarkFraud(user)}
+                        >
+                          <RiShieldCrossLine className="text-lg" />
+                          Fraud
+                        </button>
+                      </td>
+                    </>
+                  )}
                 </td>
 
                 {/* Delete User */}

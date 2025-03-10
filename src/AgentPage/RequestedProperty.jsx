@@ -14,7 +14,6 @@ const RequestedProperty = () => {
 
     SecureApi.get(`/property/Request/${user?.email}`)
       .then((res) => {
-        console.log(res.data);
         setRequests(res.data);
       })
       .catch((error) => console.error("Error fetching requests:", error));

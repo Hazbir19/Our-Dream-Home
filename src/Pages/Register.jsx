@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import UsePublicApi from "../Custom/usePublicApi";
+import UseSecureApi from "../Custom/UseSecureApi";
 
 const Register = () => {
   const { handleEmailSignIn, wait, setWait } = useContext(ContextMain);
@@ -13,30 +14,41 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const SecureApi = UseSecureApi();
   const PublicApis = UsePublicApi();
-  const onSubmit = (data) => {
-    // console.log("User Info:", data);
+  const Image_Hosting = import.meta.env.VITE_Image_Hosting_Key;
+  const Image_Hosting_Api = `https://api.imgbb.com/1/upload?&key=${Image_Hosting}`;
+  const onSubmit = async (data) => {
+    console.log("User Info:", data);
+    const ImageFile = {
+      image: data.PhotoUrl[0],
+    };
+    const res = await SecureApi.post(Image_Hosting_Api, ImageFile, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(res.data);
     const name = data.name;
-    const photo = data.PhotoUrl;
-    console.log(name, photo);
+    const photo = res.data.data.display_url;
     handleEmailSignIn(data.email, data.password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
         console.log(result);
         updateProfile(user, {
           displayName: name,
           photoURL: photo,
-        }).then(() => {
+        }).then(async () => {
           //User create Operation: method post hit in this localpath
           const userInfo = {
             name: name,
             email: data.email,
+            photo: photo,
           };
           PublicApis.post("/users", userInfo).then((res) => {
             console.log(res.data);
             if (res.data.insertedId) {
               toast.success("User Created Successfully");
-              setWait(true);
             }
           });
           toast.success("SignIn SuccessFully");
@@ -51,21 +63,12 @@ const Register = () => {
 
   return (
     <>
-      <h1 className="lg:text-5xl md:text-2xl text-lg text-center my-5 ">
-        Register Page
-      </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="max-w-screen-sm lg:mx-auto md:mx-auto bg-gradient-to-tr  from-purple-500/50 to-blue-200 rounded-lg py-[5rem] px-[2rem] mt-[5rem] mx-5">
-          <div className="">
-            <label className="label"></label>
-            <input
-              type="text"
-              placeholder="Photo Url"
-              className="input input-bordered w-full focus:bg-gray-200/50 focus:text-white focus:font-semibold focus:text-lg"
-              {...register("PhotoUrl")}
-            />
-          </div>
-          <div className="lg:flex md:flex my-[1.5rem] justify-evenly w-full">
+        <div className="max-w-screen-sm lg:mx-auto md:mx-auto bg-gradient-to-tr  from-purple-500/50 to-blue-200 rounded-lg py-8 px-[2rem] mt-[5rem] mx-5">
+          <h1 className="lg:text-5xl md:text-2xl text-white text-lg text-center my-5 ">
+            Register Page
+          </h1>
+          <div className="lg:flex md:flex my-12 justify-evenly w-full">
             <div className="form-control my-8">
               <label className="label"></label>
               <input
@@ -87,12 +90,12 @@ const Register = () => {
               {errors.name && <span className="block">Email is required</span>}
             </div>
           </div>
-          <div className="form-control">
+          <div className="form-control lg:flex gap-2 justify-center">
             <label className="label"></label>
             <input
               type="password"
               placeholder="Password"
-              className="input input-bordered focus:bg-gray-200/50 focus:text-white focus:font-semibold w-full focus:text-lg"
+              className="input input-bordered focus:bg-gray-200/50 focus:text-white focus:font-semibold w-1/2 focus:text-lg"
               name="password"
               {...register("password", {
                 require: true,
@@ -104,6 +107,14 @@ const Register = () => {
                 Password must be 6 Characters with Capital and special Case
               </span>
             )}
+            <div className="w-1/2 mt-4 lg:mt-0">
+              <label className="label"></label>
+              <input
+                type="file"
+                className="file-input file-input-ghost"
+                {...register("PhotoUrl")}
+              />
+            </div>
           </div>
           <div className="flex justify-center mt-[2rem]">
             <button

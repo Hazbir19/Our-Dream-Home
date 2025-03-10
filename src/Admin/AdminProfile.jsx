@@ -6,15 +6,18 @@ const AdminProfile = () => {
   const { user } = useContext(ContextMain);
   return (
     <>
-      <div>
-        <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-10">
+      <div className="bg-gray-100 p-16">
+        <h1 className="text-blue-900 text-2xl font-bold text-center">
+          Admin Profile
+        </h1>
+        <div className="max-w-lg mx-auto bg-white shadow-xs border-r-2 border-l-2 border-r-gray-200 border-l-gray-200 rounded-md p-6 mt-12">
           <div className="flex flex-col items-center">
             {/* User Image */}
             {user.photo && (
               <img
                 src={user.photo}
                 alt="Admin Profile"
-                className="w-24 h-24 rounded-full border-4 border-gray-300"
+                className="w-32 h-32 rounded-full border-4 border-gray-300 object-cover"
               />
             )}
 
@@ -22,22 +25,28 @@ const AdminProfile = () => {
             <h2 className="text-2xl font-bold mt-4">{user.name || "Admin"}</h2>
 
             {/* User Role */}
-            {user.role !== "user" && (
-              <span className="mt-2 text-lg bg-gradient-to-bl to-sky-300 from-pink-300 text-white px-4 py-1 rounded-full">
-                {user.role}
+            {user.role === "admin" && (
+              <span className="mt-2 text-xl bg-gradient-to-bl to-sky-300 from-pink-300 text-white border-4 border-double border-white px-4 py-1 rounded-full font-bold ">
+                Admin
               </span>
             )}
           </div>
           <div className="mt-6 space-y-3 text-gray-700">
             <p>
-              <strong>Email:</strong> {user.email}
+              <strong className="text-blue-900 mr-4 font-bold">Email:</strong>
+              {user.email}
             </p>
             <p>
-              <strong>Account Type:</strong>
+              <strong className="text-blue-900 mr-4 font-bold">
+                Account Type:
+              </strong>
               {user.role === "admin" ? "Administrator" : "Regular User"}
             </p>
             <p>
-              <strong>Member Since:</strong> 2025
+              <strong className="text-blue-900 mr-4 font-bold">
+                Member Since:
+              </strong>
+              2025
             </p>
           </div>
         </div>

@@ -3,7 +3,10 @@ import { FcGoogle } from "react-icons/fc";
 
 import { useForm } from "react-hook-form";
 import { ContextMain } from "../Context/ContextApi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { HandleLogIn, HandleGoogleSignIn } = useContext(ContextMain);
   const {
     register,
@@ -11,7 +14,12 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    HandleLogIn(data.email, data.password);
+    HandleLogIn(data.email, data.password).then((res) => {
+      if (res) {
+        toast.success("Login Success");
+        navigate("/");
+      }
+    });
   };
   return (
     <>

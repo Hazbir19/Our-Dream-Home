@@ -9,6 +9,7 @@ const AddProperty = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const { user } = useContext(ContextMain);
@@ -16,7 +17,6 @@ const AddProperty = () => {
   const Image_Hosting = import.meta.env.VITE_Image_Hosting_Key;
   const Image_Hosting_Api = `https://api.imgbb.com/1/upload?&key=${Image_Hosting}`;
   const onSubmit = async (data) => {
-    console.log(data);
     const ImageFile = {
       image: data.image[0],
     };
@@ -25,7 +25,6 @@ const AddProperty = () => {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log(res.data);
     const propertyData = {
       ...data,
       agentName: user?.name,
@@ -38,6 +37,7 @@ const AddProperty = () => {
         console.log(res.data);
         if (res.data.insertedId) {
           toast.success("Property added successfully!");
+          reset();
         }
       })
       .catch((error) => console.error("Error adding property:", error));
