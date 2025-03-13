@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UseSecureApi from "../Custom/UseSecureApi";
 import { Link } from "react-router-dom";
+import { ContextMain } from "../Context/ContextApi";
 
 const Allproperty = () => {
   const [properties, setProperties] = useState([]);
+  const { user } = useContext(ContextMain);
   const SecureApi = UseSecureApi();
+  console.log(properties);
 
   useEffect(() => {
     SecureApi.get("/properties")
@@ -52,12 +55,16 @@ const Allproperty = () => {
                 <p className="text-gray-800 font-bold mt-2">
                   ${property.price}
                 </p>
-                <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-                  <Link to={`/dashboard/propertyDetails/${property._id}`}>
-                    View Property
-                  </Link>
-                  Details
-                </button>
+                {user?.role === "user" && (
+                  <>
+                    <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
+                      <Link to={`/dashboard/propertyDetails/${property._id}`}>
+                        View Property
+                      </Link>
+                      Details
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}

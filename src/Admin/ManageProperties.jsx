@@ -38,7 +38,6 @@ const ManageProperties = () => {
   return (
     <>
       <div>
-        <h1 className="text-xl">Manage Properties</h1>
         <div className="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <h1 className="text-2xl font-bold mb-4">Manage Properties</h1>
           <table className="w-full border-collapse border">

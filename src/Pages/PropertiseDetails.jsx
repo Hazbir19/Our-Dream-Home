@@ -80,12 +80,16 @@ const PropertyDetails = () => {
           <p className="text-gray-700">{property?.description}</p>
           <p className="text-xl font-semibold mt-2">${property?.price}</p>
           <p className="text-gray-600">Agent: {property?.agentName}</p>
-          <button
-            onClick={handleWishlist}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-          >
-            Add to Wishlist
-          </button>
+          {user?.role === "user" && (
+            <>
+              <button
+                onClick={handleWishlist}
+                className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+              >
+                Add to Wishlist
+              </button>
+            </>
+          )}
         </div>
       </>
       <div className="mt-6">
@@ -99,12 +103,16 @@ const PropertyDetails = () => {
         ) : (
           <p className="text-gray-500">No reviews yet.</p>
         )}
-        <button
-          onClick={() => setShowReviewModal(true)}
-          className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-        >
-          Add a Review
-        </button>
+        {user?.role === "user" && (
+          <>
+            <button
+              onClick={() => setShowReviewModal(true)}
+              className="mt-4 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+            >
+              Add a Review
+            </button>
+          </>
+        )}
       </div>
       {/* Review Modal */}
       {showReviewModal && (

@@ -12,7 +12,7 @@ const AddProperty = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { user } = useContext(ContextMain);
+  const { user, ph } = useContext(ContextMain);
   const SecureApi = UseSecureApi();
   const Image_Hosting = import.meta.env.VITE_Image_Hosting_Key;
   const Image_Hosting_Api = `https://api.imgbb.com/1/upload?&key=${Image_Hosting}`;
@@ -29,6 +29,7 @@ const AddProperty = () => {
       ...data,
       agentName: user?.name,
       agentEmail: user?.email,
+      agentImage: user?.photo,
       image: res.data.data.display_url,
       status: "pending",
     };
