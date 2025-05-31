@@ -61,6 +61,8 @@ const ContextApi = ({ children }) => {
             email: currentUser.email,
             role: userData.role, // Assign role from API
           });
+        setloadding(false);
+
         } catch (error) {
           console.error("Error fetching user role:", error);
         }

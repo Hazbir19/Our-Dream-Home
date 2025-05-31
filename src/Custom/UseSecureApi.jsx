@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const SecureApi = axios.create({
-  baseURL: "https://assi-12-server.vercel.app",
+  baseURL: "http://localhost:5000",
 });
 const UseSecureApi = () => {
   return SecureApi;

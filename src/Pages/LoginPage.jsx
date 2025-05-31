@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import { useForm } from "react-hook-form";
 import { ContextMain } from "../Context/ContextApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -71,11 +71,13 @@ const LoginPage = () => {
                   </a>
                 </label>
               </div>
+              {/* Login Btn */}
               <div className="flex justify-evenly items-center">
                 <div className="form-control mt-6">
                   <button className="btn btn-primary">Login</button>
                 </div>
               </div>
+              {/* Google Sign In */}
               <div
                 className="mt-4 p-2 rounded-2xl shadow-xl cursor-pointer"
                 onClick={HandleGoogleSignIn}
@@ -84,6 +86,12 @@ const LoginPage = () => {
                   <FcGoogle></FcGoogle>
                 </button>
               </div>
+              <span className="text-xl">
+                If new User
+                <Link to={"/register"} className="mx-2 text-accent font-bold">
+                  Register
+                </Link>
+              </span>
             </form>
           </div>
         </div>

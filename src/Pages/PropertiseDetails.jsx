@@ -80,7 +80,7 @@ const PropertyDetails = () => {
           <p className="text-gray-700">{property?.description}</p>
           <p className="text-xl font-semibold mt-2">${property?.price}</p>
           <p className="text-gray-600">Agent: {property?.agentName}</p>
-          {user?.role === "user" && (
+          {user?.role !== "admin" && user?.role !== "agent" && (
             <>
               <button
                 onClick={handleWishlist}
@@ -103,7 +103,7 @@ const PropertyDetails = () => {
         ) : (
           <p className="text-gray-500">No reviews yet.</p>
         )}
-        {user?.role === "user" && (
+        {user?.role !== "admin" && user?.role !== "agent" && (
           <>
             <button
               onClick={() => setShowReviewModal(true)}

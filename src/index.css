@@ -1,8 +1,41 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Sora:wght@100..800&display=swap");
-@plugin "daisyui";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 @import "tailwindcss";
-.lato-regular {
-  font-family: "Lato", serif;
-  font-weight: 400;
-  font-style: normal;
+@plugin "daisyui";
+
+
+:root {
+  --color-primary: #E7EFC7;
+  --color-secondary: #6B7280;
+  --color-accent: #8A784E;
+  --Text-color:#070435;
+  --font-base: 'Inter', sans-serif;
+  --color-background-banner: linear-gradient(344deg,rgba(46, 57, 44, 0.97) 17%, rgba(174, 200, 164, 1) 83%);
+}
+
+body {
+  color: #070435;
+  font-family: var(--font-base);
+}
+.custom-shape-divider-bottom-1748696428 {
+    position: absolute;
+    top: 30.9rem;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-bottom-1748696428 svg {
+    position: relative;
+    display: block;
+    width: calc(118% + 1.3px);
+    height: 172px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-bottom-1748696428 .shape-fill {
+    fill: #ffffff;
+}
+.custom-backgroud{
+  background-color: (var(--background-banner));
 }

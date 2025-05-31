@@ -23,11 +23,13 @@ import MakeOffer from "../Components/MakeOffer";
 import RequestedProperty from "../AgentPage/RequestedProperty";
 import PaymentPage from "../Components/PaymentPage";
 import MySoldProperties from "../AgentPage/MySoldPropertise";
+import ErrorPage from "../Pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayouts></MainLayouts>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
